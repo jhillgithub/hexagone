@@ -7,7 +7,7 @@ import { Player } from "./Player/components/Player";
 export const Experience = () => {
   return (
     <div className="w-full h-full">
-      <Canvas camera={{ position: [0, 10, 30], fov: 55 }}>
+      <Canvas shadows camera={{ position: [0, 10, 30], fov: 55 }}>
         <color attach="background" args={["#0f0f0f"]} />
         <Environment files={"/hdrs/neon_photostudio_1k.hdr"} />
         <Physics debug={false} timeStep="vary">
