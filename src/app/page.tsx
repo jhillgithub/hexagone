@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import { Experience } from "./Experience";
-import { SoundButton } from "./UI/components/SoundButton";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Experience } from "./Experience";
+import { Controls } from "./Controls/Controls";
 
 const Hexagone = () => {
   const [startGame, setStartGame] = useState(false);
@@ -16,7 +16,9 @@ const Hexagone = () => {
 
   return (
     <div className="w-screen h-screen">
-      <Experience />
+      <Controls>
+        <Experience />
+      </Controls>
     </div>
   );
 };

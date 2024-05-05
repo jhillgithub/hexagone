@@ -1,29 +1,25 @@
-import {
-  PositionalAudio,
-  Sphere,
-  useKeyboardControls,
-} from "@react-three/drei";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useControlsContext } from "@/app/Controls/Controls";
+import { PositionalAudio, Sphere } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import {
   RapierRigidBody,
   RigidBody,
   interactionGroups,
+  useRapier,
 } from "@react-three/rapier";
 import { useRef, useState } from "react";
-import {
-  AudioLoader,
-  Vector3,
-  type PositionalAudio as PositionalAudioType,
-} from "three";
+import { Vector3, type PositionalAudio as PositionalAudioType } from "three";
 
 export const MovableSphereName = "Player";
 
 export const MovableSphere = () => {
+  const { rapier } = useRapier();
   /**Physics */
   const rigidBody = useRef<RapierRigidBody>(null);
   const canJump = useRef(false);
   const hasJumped = useRef(false);
-  const [_, getKeys] = useKeyboardControls();
+
+  const { getControls } = useControlsContext();
 
   /**Game State */
   const [playerDied, setPlayerDied] = useState(false);
@@ -36,28 +32,27 @@ export const MovableSphere = () => {
   const driftSoundRef = useRef<PositionalAudioType | null>(null);
   const jumpSoundRef = useRef<PositionalAudioType | null>(null);
   const landingSoundRef = useRef<PositionalAudioType | null>(null);
-  // const engineSound = useLoader(AudioLoader, "sound/engine.wav");
 
   useFrame(({ scene, camera, raycaster }, delta) => {
     if (playerDied) return;
     if (!rigidBody.current) return;
     let forwardSpeed = 0;
     let rotationSpeed = 0;
+    const controls = getControls();
 
     const position = rigidBody.current.translation();
     if (position.y < -30) {
       camera.position.set(0, 10, 30);
       setPlayerDied(true);
     }
-
-    const keyboardState = getKeys();
+    const velocity = rigidBody.current.linvel();
 
     // Update camera rotation based on "a" and "d" keys
-    if (keyboardState.left) {
+    if (controls.left) {
       cameraRotation.current += delta * 2;
       rotationSpeed = delta * 2;
     }
-    if (keyboardState.right) {
+    if (controls.right) {
       cameraRotation.current -= delta * 2;
       rotationSpeed = -delta * 2;
     }
@@ -78,16 +73,16 @@ export const MovableSphere = () => {
     camera.lookAt(position.x, position.y, position.z);
 
     const impulse = { x: 0, y: 0, z: 0 };
-    const impulseStrength = 1.0;
+    const impulseStrength = 0.5;
     const jumpStrength = 10.0;
 
     // Apply force based on camera direction using "w" and "s" keys
-    if (keyboardState.forward) {
+    if (controls.forward) {
       impulse.x -= impulseStrength * Math.sin(cameraRotation.current);
       impulse.z -= impulseStrength * Math.cos(cameraRotation.current);
       forwardSpeed = impulseStrength;
     }
-    if (keyboardState.backward) {
+    if (controls.backward) {
       impulse.x += impulseStrength * Math.sin(cameraRotation.current);
       impulse.z += impulseStrength * Math.cos(cameraRotation.current);
       forwardSpeed = -impulseStrength;
@@ -145,7 +140,7 @@ export const MovableSphere = () => {
           if (landingSoundRef.current.isPlaying) {
             landingSoundRef.current.stop();
           }
-          if (!keyboardState.jump) {
+          if (!controls.jump) {
             landingSoundRef.current.setVolume(0.5);
             landingSoundRef.current.play();
           }
@@ -156,7 +151,7 @@ export const MovableSphere = () => {
       canJump.current = false;
     }
 
-    if (keyboardState.jump && canJump.current) {
+    if (controls.jump && canJump.current) {
       impulse.y = jumpStrength;
       hasJumped.current = true;
 
@@ -185,8 +180,8 @@ export const MovableSphere = () => {
         ref={rigidBody}
         colliders="ball"
         restitution={0.01}
-        linearDamping={0.42}
-        friction={0.05}
+        // linearDamping={0.8}
+        // friction={0.5}
         name={MovableSphereName}
         collisionGroups={interactionGroups(1, [0, 1, 2])}
         onCollisionEnter={() => {
