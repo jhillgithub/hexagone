@@ -48,7 +48,7 @@ export const FloorTile = ({
     const material = ref.current.material as MeshPhysicalMaterial;
     const currentOpacity = material.opacity;
     if (state.status === TileStatus.FADING) {
-      const fadeDuration = 0.42; // Target fade duration in seconds
+      const fadeDuration = 0.8; // Target fade duration in seconds
       const decrement = delta / fadeDuration;
       const newOpacity = Math.max(0, material.opacity - decrement);
       material.opacity = newOpacity;
@@ -66,7 +66,7 @@ export const FloorTile = ({
       <RigidBody
         type="fixed"
         colliders="cuboid"
-        friction={0.05}
+        // friction={0.05}
         name={name}
         onCollisionEnter={(e) => {
           if (hit.current) return;
