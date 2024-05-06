@@ -5,8 +5,20 @@ import {
   TILE_GAP_SIZE,
 } from "../constants/gameArenaContants";
 import { FloorTile } from "./FloorTile";
+import { useGame } from "@/app/hooks/useGame";
+import { useFrame } from "@react-three/fiber";
 
 export const RaceTrack = () => {
+  const { gameOver } = useGame();
+
+  useFrame((_, delta) => {
+    if (gameOver && curveRef.current) {
+      curveRef.current.rotateX(delta * 0.1);
+      curveRef.current.rotateY(delta * 0.1);
+      curveRef.current.rotateZ(delta * 0.01);
+    }
+  });
+
   const curveRef = useRef<Group>(null);
 
   const curvePoints = [

@@ -61,7 +61,7 @@ export const PlayerController = ({
 
     // Handle left and right rotation of the camera around the sphere
     const spherePosition = rigidBody.translation();
-    if (spherePosition.y < -20) {
+    if (spherePosition.y < -10) {
       camera.position.set(250, 500, 0);
       camera.lookAt(new Vector3());
       stopUseFrame.current = true;

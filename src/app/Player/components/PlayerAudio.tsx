@@ -1,4 +1,5 @@
 import { useControlsContext } from "@/app/Controls/Controls";
+import { useGame } from "@/app/hooks/useGame";
 import { PositionalAudio } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { RapierRigidBody } from "@react-three/rapier";
@@ -19,6 +20,9 @@ export const PlayerAudio = ({
   rigidBodyRef: RefObject<RapierRigidBody>;
   meshRef: RefObject<Mesh>;
 }) => {
+  /**Game State */
+  const { gamePlaying } = useGame();
+
   /**Controls */
   const { getControls } = useControlsContext();
 
@@ -168,6 +172,7 @@ export const PlayerAudio = ({
     }
   });
 
+  if (!gamePlaying) return null;
   return (
     <>
       <PositionalAudio
