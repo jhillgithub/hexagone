@@ -30,21 +30,21 @@ export const Experience = () => {
         </Physics>
         {/* <OrbitControls /> */}
       </Canvas>
-      <div className="absolute bottom-16 left-16">
-        <Joystick
-          throttle={100}
-          move={handleJoystickMove}
-          stop={handleJoystickStop}
-        />
-      </div>
-      <div className="absolute bottom-16 right-16">
-        <Button
-          className="bg-[#3d59ab] rounded-xl"
-          onMouseDown={handleJumpButtonDown}
-          onMouseUp={handleJumpButtonUp}
-        >
-          Jump
-        </Button>
+      <div className="absolute inset-x-0 bottom-20">
+        <div className="container flex justify-between items-center gap-x-24">
+          <Joystick
+            throttle={100}
+            move={handleJoystickMove}
+            stop={handleJoystickStop}
+          />
+          <Button
+            className="bg-[#3d59ab] rounded-3xl rotate-45"
+            onMouseDown={handleJumpButtonDown}
+            onMouseUp={handleJumpButtonUp}
+          >
+            Jump
+          </Button>
+        </div>
       </div>
     </div>
   );
