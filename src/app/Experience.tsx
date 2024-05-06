@@ -5,9 +5,15 @@ import { Joystick } from "react-joystick-component";
 import { useControlsContext } from "./Controls/Controls";
 import { RaceTrack } from "./GameArena/components/RaceTrack";
 import { Player } from "./Player/components/Player";
+import { Button } from "@/components/ui/button";
 
 export const Experience = () => {
-  const { handleJoystickMove, handleJoystickStop } = useControlsContext();
+  const {
+    handleJoystickMove,
+    handleJoystickStop,
+    handleJumpButtonDown,
+    handleJumpButtonUp,
+  } = useControlsContext();
 
   return (
     <div className="w-full h-full relative">
@@ -22,14 +28,23 @@ export const Experience = () => {
             <Player />
           </group>
         </Physics>
-        <OrbitControls />
+        {/* <OrbitControls /> */}
       </Canvas>
-      <div className="absolute bottom-8 left-8">
+      <div className="absolute bottom-16 left-16">
         <Joystick
           throttle={100}
           move={handleJoystickMove}
           stop={handleJoystickStop}
         />
+      </div>
+      <div className="absolute bottom-16 right-16">
+        <Button
+          className="bg-[#3d59ab] rounded-xl"
+          onMouseDown={handleJumpButtonDown}
+          onMouseUp={handleJumpButtonUp}
+        >
+          Jump
+        </Button>
       </div>
     </div>
   );

@@ -78,7 +78,7 @@ export const FloorTile = ({
         // tiles are in group 0 and only collide with groups 1 and 2
         collisionGroups={interactionGroups(0, [1, 2])}
       >
-        <mesh ref={ref}>
+        <mesh ref={ref} receiveShadow>
           <cylinderGeometry
             args={[(0.9 * hexagonSize) / 2, hexagonSize / 2, TILE_HEIGHT, 6]}
           />

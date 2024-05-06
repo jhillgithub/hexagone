@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useKeyboardControls } from "@react-three/drei";
 import { IJoystickUpdateEvent } from "react-joystick-component/build/lib/Joystick";
 
@@ -51,13 +51,11 @@ export const useControlsInput = () => {
     const threshold = 0.5;
 
     if (x) {
-      console.log("Here ", x);
       controls.current = {
         ...controls.current,
         left: x < -threshold,
         right: x > threshold,
       };
-      console.log(controls.current);
     }
 
     if (y) {
@@ -69,7 +67,27 @@ export const useControlsInput = () => {
     }
   };
 
+  const handleJumpButtonDown = useCallback(() => {
+    controls.current = {
+      ...controls.current,
+      jump: true,
+    };
+  }, []);
+
+  const handleJumpButtonUp = useCallback(() => {
+    controls.current = {
+      ...controls.current,
+      jump: true,
+    };
+  }, []);
+
   const getControls = () => controls.current;
 
-  return { getControls, handleJoystickMove, handleJoystickStop };
+  return {
+    getControls,
+    handleJoystickMove,
+    handleJoystickStop,
+    handleJumpButtonDown,
+    handleJumpButtonUp,
+  };
 };

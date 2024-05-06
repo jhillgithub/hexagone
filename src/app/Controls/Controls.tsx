@@ -7,6 +7,8 @@ type ControlsContextType = {
   getControls: () => ControlsInput;
   handleJoystickMove: (e: IJoystickUpdateEvent) => void;
   handleJoystickStop: (e: IJoystickUpdateEvent) => void;
+  handleJumpButtonDown: () => void;
+  handleJumpButtonUp: () => void;
 };
 
 const ControlsContext = createContext<ControlsContextType | undefined>(
@@ -24,11 +26,22 @@ export const useControlsContext = () => {
 };
 
 const ControlsContextProvider = ({ children }: { children: ReactNode }) => {
-  const { getControls, handleJoystickMove, handleJoystickStop } =
-    useControlsInput();
+  const {
+    getControls,
+    handleJoystickMove,
+    handleJoystickStop,
+    handleJumpButtonDown,
+    handleJumpButtonUp,
+  } = useControlsInput();
   return (
     <ControlsContext.Provider
-      value={{ getControls, handleJoystickMove, handleJoystickStop }}
+      value={{
+        getControls,
+        handleJoystickMove,
+        handleJoystickStop,
+        handleJumpButtonDown,
+        handleJumpButtonUp,
+      }}
     >
       {children}
     </ControlsContext.Provider>
