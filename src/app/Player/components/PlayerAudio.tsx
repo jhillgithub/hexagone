@@ -119,7 +119,6 @@ export const PlayerAudio = ({
 
     // Y component of Euler angles represents the rotation around the Y-axis
     const angleChangeY = deltaEuler.y;
-    // console.log(angleChangeY);
 
     const angularVelocityY = deltaEuler.y / delta;
 

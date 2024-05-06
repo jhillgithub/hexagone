@@ -1,4 +1,5 @@
 import { useControlsContext } from "@/app/Controls/Controls";
+import { useGame } from "@/app/hooks/useGame";
 import { useFrame } from "@react-three/fiber";
 import {
   RapierRigidBody,
@@ -24,13 +25,19 @@ export const PlayerController = ({
   rigidBodyRef,
   children,
 }: PlayerControllerProps) => {
+  /**Game State */
+  const { gameOver, gameRestart, setGameOver } = useGame();
+
   /** Physics */
   const { getControls } = useControlsContext();
   const canJump = useRef(false);
+  const stopUseFrame = useRef(false);
   const targetCameraPosition = useMemo(() => new Vector3(), []);
   const lookDirection = useMemo(() => new Vector3(), []);
 
   useFrame(({ camera }, delta) => {
+    if (gameOver || gameRestart || stopUseFrame.current) return;
+
     const rigidBody = rigidBodyRef.current;
     if (!rigidBody) return;
 
@@ -54,6 +61,14 @@ export const PlayerController = ({
 
     // Handle left and right rotation of the camera around the sphere
     const spherePosition = rigidBody.translation();
+    if (spherePosition.y < -20) {
+      camera.position.set(250, 500, 0);
+      camera.lookAt(new Vector3());
+      stopUseFrame.current = true;
+      setGameOver();
+      return;
+    }
+
     let cameraDirection = camera.position.clone().sub(spherePosition);
 
     // Rotate around the y-axis for left and right controls
@@ -95,6 +110,7 @@ export const PlayerController = ({
     }
   });
 
+  if (gameRestart) return null;
   return (
     <>
       <RigidBody

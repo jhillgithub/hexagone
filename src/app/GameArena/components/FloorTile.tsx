@@ -3,11 +3,7 @@ import { RigidBody, interactionGroups } from "@react-three/rapier";
 import { useCallback, useReducer, useRef } from "react";
 import { Mesh, MeshPhysicalMaterial, Vector3 } from "three";
 import { useRandomColor } from "../../hooks/useRandomColor";
-import {
-  TILE_BASE_RADIUS,
-  TILE_HEIGHT,
-  TILE_TOP_RADIUS,
-} from "../constants/gameArenaContants";
+import { TILE_HEIGHT } from "../constants/gameArenaContants";
 import {
   TileActionTypes,
   TileState,
@@ -48,7 +44,7 @@ export const FloorTile = ({
     const material = ref.current.material as MeshPhysicalMaterial;
     const currentOpacity = material.opacity;
     if (state.status === TileStatus.FADING) {
-      const fadeDuration = 0.8; // Target fade duration in seconds
+      const fadeDuration = 0.42; // Target fade duration in seconds
       const decrement = delta / fadeDuration;
       const newOpacity = Math.max(0, material.opacity - decrement);
       material.opacity = newOpacity;

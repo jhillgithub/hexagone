@@ -42,7 +42,6 @@ export const useControlsInput = () => {
   }, [subscribedKeys, getKeys]);
 
   const handleJoystickStop = (event: IJoystickUpdateEvent) => {
-    console.log("Stopping");
     controls.current = { ...initialState };
   };
 
