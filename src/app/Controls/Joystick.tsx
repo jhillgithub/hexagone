@@ -14,7 +14,7 @@ export const Joystick = () => {
     <div className="absolute inset-x-0 bottom-20">
       <div className="container flex justify-between items-center gap-x-24">
         <ReactJoystick
-          throttle={200}
+          // throttle={200}
           move={handleJoystickMove}
           stop={handleJoystickStop}
         />
