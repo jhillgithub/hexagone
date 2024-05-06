@@ -10,8 +10,8 @@ import { ReactNode, RefObject, useMemo, useRef } from "react";
 import { Vector3 } from "three";
 
 export const name = "Player";
-const baseImpulseStrength = 4 * 60;
-const baseRotationStrength = 1 * 60;
+const baseImpulseStrength = 3 * 60;
+const baseRotationStrength = 0.6 * 60;
 const baseJumpStrength = 60;
 const cameraDistance = 10;
 const heightOffset = 5;
